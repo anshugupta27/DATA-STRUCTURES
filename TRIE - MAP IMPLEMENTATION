@@ -38,7 +38,7 @@ void display ( Trie * root , char str[] , int level )
     if ( root -> isLeaf )
     {
         str[level] = '\0' ;
-        cout << str << endl ;
+        cout << "~~~~~~~~~~~~~~~~  " << str << endl ;
     }
     int i ;
     for ( auto i = root -> m.begin() ; i != root -> m.end() ; i++  ) 
@@ -177,9 +177,10 @@ int main()
         
         while ( t )
         {
-        cout << "\n*************************\n " ;
-        cout << "\n1. INSERT NAME \n2.DELETE NAME \n3.SEARCH NAME \n4.DISPLAY ALL LEXOGRAPHICALLY \n5.EXIT " ;
-        cout << "\n*************************\n " ;
+        cout << "\n******************************************\n " ;
+        cout << "\n\t\t1. INSERT NAME \n\t\t2.DELETE NAME \n\t\t3.SEARCH NAME \n\t\t4.DISPLAY ALL LEXOGRAPHICALLY \n\t\t5.EXIT " ;
+        cout << "\n******************************************\n " ;
+        cout << "------------------------> " ;
         cin >> ch ;
         switch ( ch ) 
         {
