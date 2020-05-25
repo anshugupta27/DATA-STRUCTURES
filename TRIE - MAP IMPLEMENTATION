@@ -1,0 +1,240 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+//Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta 
+//*********************************************************************************************************************************************************************************
+//TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD TRY_HARD 
+//**********************************************************************************************************************************************************************************
+//Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta Anshu_Gupta 
+
+
+
+struct Trie
+{
+	
+	bool isLeaf;
+
+	
+	map<char, Trie*> m;
+};
+ 
+
+
+Trie* getNewTrieNode()
+{
+	Trie* node = new Trie;
+	node->isLeaf = false;
+
+	return node;
+}
+
+
+// ******************************************************** DISPLAY FUNCTION ***************************************************************************************
+
+void display ( Trie * root , char str[] , int level )
+{
+    if ( root -> isLeaf )
+    {
+        str[level] = '\0' ;
+        cout << str << endl ;
+    }
+    int i ;
+    for ( auto i = root -> m.begin() ; i != root -> m.end() ; i++  ) 
+    {
+        if ( i -> second )
+        {
+            str[level] = i -> first  ;
+            display ( i -> second , str , level+1 ) ; 
+        }
+    }
+}
+
+//******************************************************* INSERT FUNCTION ***********************************************************************************************
+
+void insert(Trie*& head, char* str)
+{
+	if (head == NULL)
+		head = getNewTrieNode();
+
+	
+	Trie* curr = head;
+	while (*str)
+	{
+		
+		if (curr->m.find(*str) == curr->m.end())
+			curr->m[*str] = getNewTrieNode();
+
+		
+		curr = curr->m[*str];
+
+		
+		str++;
+	}
+
+	
+	curr->isLeaf = true;
+}
+
+// ****************************************************** HAVE CHILDREN FUNCTION **************************************************************************************************
+
+bool haveChildren(Trie const* curr)
+{
+	
+
+	for (auto it : curr->m)
+		if (it.second != NULL)
+			return true;
+
+	return false;
+}
+
+//************************************************************ DELETION FUNCTION **********************************************************************************************
+
+bool deletion(Trie*& curr, char* str)
+{
+	
+	if (curr == NULL)
+		return false;
+
+	
+	if (*str)
+	{
+		
+		if (curr != NULL &&  curr->m.find(*str) != curr->m.end() &&
+			deletion(curr->m[*str], str + 1) && curr->isLeaf == false)
+		{
+			if (!haveChildren(curr))
+			{
+				delete curr;;
+				curr = NULL;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	
+	if (*str == '\0' && curr->isLeaf)
+	{
+		
+		if (!haveChildren(curr))
+		{
+			delete curr;; 
+			curr = NULL;
+			return true; 
+		}
+
+		
+		else
+		{
+			
+			curr->isLeaf = false;
+			return false;	  
+		}
+	}
+
+	return false;
+}
+
+//************************************************************* SEARCH FUNCTION ************************************************************************************************************
+
+bool search(Trie* head, char* str)
+{
+	
+	if (head == NULL)
+		return false;
+
+	Trie* curr = head;
+	while (*str)
+	{
+		
+		curr = curr->m[*str];
+
+		
+		if (curr == NULL)
+			return false;
+
+		
+		str++;
+	}
+
+
+	return curr->isLeaf;
+}
+
+
+//*************************************************************** MAIN FUNCTION *********************************************************************************************************
+
+int main()
+{
+	Trie* head = NULL;
+        string s ;
+        int t = 1 , ch ; 
+        
+        while ( t )
+        {
+        cout << "\n*************************\n " ;
+        cout << "\n1. INSERT NAME \n2.DELETE NAME \n3.SEARCH NAME \n4.DISPLAY ALL LEXOGRAPHICALLY \n5.EXIT " ;
+        cout << "\n*************************\n " ;
+        cin >> ch ;
+        switch ( ch ) 
+        {
+        case 1 :
+        for ( int i = 0 ; i < 1 ; i++ ) 
+        {
+        cout << "---ENTER NAME OF STUDENT TO INSERT   : " ;
+        cin >> s ;
+        char char_array[s.length()+1] ;
+        strcpy ( char_array , s.c_str() ) ;
+        insert ( head , char_array ) ;
+        cout << endl ;
+        }
+        break ; 
+        case 2:
+         {
+        cout << "\n---ENTER NAME OF STUDENT TO DELETE  : " ;
+        cin >> s ;
+        char char_array[s.length()+1] ;
+        strcpy ( char_array , s.c_str() ) ;
+        deletion ( head , char_array ) ;
+        }
+        break ; 
+        case 3: 
+        {
+        cout << "----ENTER NAME OF STUDENT TO SEARCH  : " ;
+        cin >> s ;
+        char char_arr[s.length()+1] ;
+        strcpy ( char_arr , s.c_str() ) ;
+        int p = search ( head , char_arr ) ;
+        if ( p == 1 ) 
+        cout << "\n*********    STUDENT FOUND  :)  ************\n" ;
+        else
+        cout << "\n*********   STUDENT NOT FOUND :( *********** \n" ;
+        }
+        break ; 
+        case 4: 
+        {
+        int level = 0 ;
+        char str[20] ;
+        display ( head , str , level ) ;
+        }
+        break ;
+        case 5:
+        t = 0 ;
+        break ;
+        
+        }
+        
+        
+     }
+
+
+
+
+
+
+}
