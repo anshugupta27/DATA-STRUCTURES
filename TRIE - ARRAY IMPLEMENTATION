@@ -12,6 +12,8 @@ struct TrieNode {
 }; 
   
 
+// ********************************************************************** GET NEW NODE FUNCTION **********************************************************************************************************
+
 struct TrieNode* getNode(void) 
 { 
     struct TrieNode* pNode = new TrieNode; 
@@ -23,7 +25,28 @@ struct TrieNode* getNode(void)
   
     return pNode; 
 } 
-  
+
+
+// ************************************************************************ IS EMPTY FUNCTION ******************************************************************************************************
+
+bool isEmpty(TrieNode* root) 
+{ 
+    for (int i = 0; i < ALPHABET_SIZE; i++) 
+        if (root->children[i]) 
+            return false; 
+    return true; 
+} 
+ 
+// *************************************************************************** IS LEAF FUNCTION ******************************************************************************************************
+ 
+bool isLeafNode(struct TrieNode* root) 
+{ 
+    return root->isLeaf != false; 
+} 
+
+
+
+// ************************************************************************* INSERT FUNCTION *****************************************************************************************************
 
 void insert(struct TrieNode* root, string key) 
 { 
@@ -41,6 +64,7 @@ void insert(struct TrieNode* root, string key)
     pointer->isLeaf = true; 
 } 
   
+//************************************************************************* SEARCH FUNCTION *******************************************************************************************************
 
 bool search(struct TrieNode* root, string key) 
 { 
@@ -58,13 +82,7 @@ bool search(struct TrieNode* root, string key)
 } 
   
 
-bool isEmpty(TrieNode* root) 
-{ 
-    for (int i = 0; i < ALPHABET_SIZE; i++) 
-        if (root->children[i]) 
-            return false; 
-    return true; 
-} 
+// ************************************************************************* DELETE FUNCTION *********************************************************************************************************
   
 
 TrieNode* remove(TrieNode* root, string key, int depth = 0) 
@@ -101,11 +119,9 @@ TrieNode* remove(TrieNode* root, string key, int depth = 0)
   
     return root; 
 } 
-bool isLeafNode(struct TrieNode* root) 
-{ 
-    return root->isLeaf != false; 
-} 
+
   
+// ************************************************************************** DISPLAY FUNCTION ****************************************************************************************
 
 void display(struct TrieNode* root, char str[], int level) 
 { 
@@ -128,6 +144,11 @@ void display(struct TrieNode* root, char str[], int level)
         } 
     } 
 } 
+
+
+
+//************************************************************************* MAIN FUNCTION **************************************************************************************************
+
 
 
   int main()
