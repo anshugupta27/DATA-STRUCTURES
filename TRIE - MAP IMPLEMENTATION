@@ -53,10 +53,10 @@ void display ( Trie * root , char str[] , int level )
 
 //******************************************************* INSERT FUNCTION ***********************************************************************************************
 
-void insert(Trie*& head, char* str)
+void insert(Trie*head, char* str)
 {
-	if (head == NULL)
-		head = getNewTrieNode();
+	
+		
 
 	
 	Trie* curr = head;
@@ -171,7 +171,7 @@ bool search(Trie* head, char* str)
 
 int main()
 {
-	Trie* head = NULL;
+	Trie* head = getNewTrieNode();
         string s ;
         int t = 1 , ch ; 
         
