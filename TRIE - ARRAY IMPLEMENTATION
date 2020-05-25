@@ -1,0 +1,174 @@
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+const int ALPHABET_SIZE = 26; 
+  
+
+struct TrieNode { 
+    struct TrieNode* children[ALPHABET_SIZE]; 
+  
+    
+    bool isLeaf; 
+}; 
+  
+
+struct TrieNode* getNode(void) 
+{ 
+    struct TrieNode* pNode = new TrieNode; 
+  
+    pNode->isLeaf = false; 
+  
+    for (int i = 0; i < ALPHABET_SIZE; i++) 
+        pNode->children[i] = NULL; 
+  
+    return pNode; 
+} 
+  
+
+void insert(struct TrieNode* root, string key) 
+{ 
+    struct TrieNode* pointer = root; 
+  
+    for (int i = 0; i < key.length(); i++) { 
+        int index = key[i] - 'a'; 
+        if (!pointer->children[index]) 
+            pointer->children[index] = getNode(); 
+  
+        pointer = pointer->children[index]; 
+    } 
+  
+    
+    pointer->isLeaf = true; 
+} 
+  
+
+bool search(struct TrieNode* root, string key) 
+{ 
+    struct TrieNode* pointer = root; 
+  
+    for (int i = 0; i < key.length(); i++) { 
+        int index = key[i] - 'a'; 
+        if (!pointer->children[index]) 
+            return false; 
+  
+        pointer = pointer->children[index]; 
+    } 
+  
+    return (pointer != NULL && pointer->isLeaf); 
+} 
+  
+
+bool isEmpty(TrieNode* root) 
+{ 
+    for (int i = 0; i < ALPHABET_SIZE; i++) 
+        if (root->children[i]) 
+            return false; 
+    return true; 
+} 
+  
+
+TrieNode* remove(TrieNode* root, string key, int depth = 0) 
+{ 
+  
+    if (!root) 
+        return NULL; 
+  
+    
+    if (depth == key.size()) { 
+  
+        
+        if (root->isLeaf) 
+            root->isLeaf = false; 
+  
+       
+        if (isEmpty(root)) { 
+            delete (root); 
+            root = NULL; 
+        } 
+  
+        return root; 
+    } 
+
+    int index = key[depth] - 'a'; 
+    root->children[index] =  
+          remove(root->children[index], key, depth + 1); 
+  
+    
+    if (isEmpty(root) && root->isLeaf == false) { 
+        delete (root); 
+        root = NULL; 
+    } 
+  
+    return root; 
+} 
+bool isLeafNode(struct TrieNode* root) 
+{ 
+    return root->isLeaf != false; 
+} 
+  
+
+void display(struct TrieNode* root, char str[], int level) 
+{ 
+    
+    if (isLeafNode(root))  
+    { 
+        cout << " ---------------> " ;
+        str[level] = '\0'; 
+        cout << str << endl; 
+    } 
+  
+    int i; 
+    for (i = 0; i < ALPHABET_SIZE ; i++)  
+    { 
+        
+        if (root->children[i])  
+        { 
+            str[level] = i + 'a'; 
+            display(root->children[i], str, level + 1); 
+        } 
+    } 
+} 
+
+
+  int main()
+ {
+	
+	struct TrieNode* root = getNode() ;
+	cout << "\n ENTER 5 WORDS IN DICTIONARY : \n" ;
+	string s ;
+        for ( int i = 0 ; i < 5 ; i++ )
+        {
+        cout << " ---------------> " ;
+	cin >> s ;
+	insert ( root , s ) ;
+        }
+	
+	cout << "\n ENTER THE WORD TO BE DELETED  : \n" ;
+        cout << " ---------------> " ;
+	cin >> s ;
+        int k = search ( root , s ) ;
+	remove ( root , s ) ;
+        if ( k )
+        cout << " WORD DELETED SUCCESSFULLY : \n " ;
+        else
+        cout << " WORD DOES NOT EXISTS , HENCE CANT BE DELETED : \n " ;
+	
+	cout << "\n ENTER THE WORD TO BE SEARCHED : \n" ;
+        cout << " ---------------> " ;
+	cin >> s ;
+	int p = search ( root , s ) ;
+	if ( p )
+	cout << " WORD FOUND SUCCESSFULLY \n" ;
+	else
+	cout << " WORD NOT FOUND \n" ;
+	
+	cout << "\n PRINTING ALL THE WORDS LEXOGRAPHICALLY : \n" ;
+	char str[20] ;
+	int level = 0 ;
+	display ( root , str , level ) ;
+	
+	
+	
+        
+	
+ }
